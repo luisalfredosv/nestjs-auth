@@ -1,0 +1,25 @@
+@baseUrl =http://localhost:5000
+@contentType =application/json
+@access_token =Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJzdWIiOjEsImlhdCI6MTYyMTk2MTkwNSwiZXhwIjoxNjIxOTYyODA1fQ.9l7C6pUtMqC_-zaIFtYiJzQqoUfVXwI7c_wx49aLUMA
+
+# @get  /profile
+
+GET {{baseUrl}}/profile HTTP/1.1
+
+###
+
+
+# @post /auth/login
+
+POST {{baseUrl}}/auth/login HTTP/1.1
+Content-Type: {{contentType}}
+
+{"username": "john", "password": "changeme"}
+
+###
+
+# @get /profile
+
+GET {{baseUrl}}/profile HTTP/1.1
+Authorization: {{access_token}}
+###

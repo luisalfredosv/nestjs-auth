@@ -2,6 +2,21 @@
 @contentType =application/json
 @access_token =Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJzdWIiOjEsImlhdCI6MTYyMTk2MTkwNSwiZXhwIjoxNjIxOTYyODA1fQ.9l7C6pUtMqC_-zaIFtYiJzQqoUfVXwI7c_wx49aLUMA
 
+# @post /auth/registrer
+
+POST {{baseUrl}}/auth/registrer HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "name": "luis",
+    "surname":"sarabia" ,
+    "username": "johnl",
+    "password": "changeme"
+}
+
+###
+
+
 # @get  /profile
 
 GET {{baseUrl}}/profile HTTP/1.1

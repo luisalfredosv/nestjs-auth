@@ -10,14 +10,22 @@ import { UsersModule } from './users/users.module';
   imports: [
     AuthModule,
     UsersModule,
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true,
+      validationOptions: {
+        allowUnknown: false,
+        abortEarly: true,
+      },
+    }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        uri: 'mongodb://127.0.0.1:27017/', //configService.getString('MONGODB_URI'),
-        dbName: 'nestjs',
+        uri: process.env.DATABASE_URI,
+        dbName: process.env.DATABASE_NAME,
         auth: {
-          user: 'lasv',
-          password: '12795',
+          user: process.env.DATABASE_USER,
+          password: process.env.DATABASE_PASSWORD,
         },
         useNewUrlParser: true,
         useUnifiedTopology: true,

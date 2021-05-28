@@ -37,4 +37,5 @@ Content-Type: {{contentType}}
 
 GET {{baseUrl}}/profile HTTP/1.1
 Authorization: {{access_token}}
+
 ###

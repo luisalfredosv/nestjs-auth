@@ -12,11 +12,14 @@ export class User extends Document {
   @Prop()
   surname: string;
 
-  @Prop()
+  @Prop({ unique: true })
   username: string;
 
   @Prop()
   password: string;
+
+  @Prop({ type: Boolean })
+  isAdmin: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

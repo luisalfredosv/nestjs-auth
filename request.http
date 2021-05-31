@@ -1,6 +1,6 @@
 @baseUrl =http://localhost:5000
 @contentType =application/json
-@access_token =Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJzdWIiOjEsImlhdCI6MTYyMTk2MTkwNSwiZXhwIjoxNjIxOTYyODA1fQ.9l7C6pUtMqC_-zaIFtYiJzQqoUfVXwI7c_wx49aLUMA
+@access_token =Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MjIzMTc3MzAsImV4cCI6MTYyMjMxODYzMH0.hPWJpvIJEkROIj9oez5PI-u-lWx6V9GsuMHEo3CyS4w
 
 # @post /auth/registrer
 
@@ -10,8 +10,9 @@ Content-Type: {{contentType}}
 {
     "name": "luis",
     "surname":"sarabia" ,
-    "username": "johnl",
-    "password": "changeme"
+    "username": "lsarabia",
+    "password": "pass",
+    "isAdmin": true
 }
 
 ###
@@ -29,7 +30,7 @@ GET {{baseUrl}}/profile HTTP/1.1
 POST {{baseUrl}}/auth/login HTTP/1.1
 Content-Type: {{contentType}}
 
-{"username": "john", "password": "changeme"}
+{"username": "lsarabia", "password": "pass"}
 
 ###
 

@@ -1,15 +1,16 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ThrottlerModule } from '@nestjs/throttler';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { CaslModule } from './casl/casl.module';
+import { ArticleModule } from './article/article.module';
 
 @Module({
   imports: [
-    AuthModule,
-    UsersModule,
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
@@ -17,6 +18,14 @@ import { UsersModule } from './users/users.module';
         allowUnknown: false,
         abortEarly: true,
       },
+    }),
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        ttl: config.get('THROTTLE_TTL') || 60,
+        limit: config.get('THROTTLE_LIMIT') || 10,
+      }),
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
@@ -34,6 +43,10 @@ import { UsersModule } from './users/users.module';
       }),
       inject: [ConfigService],
     }),
+    AuthModule,
+    UsersModule,
+    CaslModule,
+    ArticleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

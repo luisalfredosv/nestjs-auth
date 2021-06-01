@@ -8,16 +8,12 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { CaslModule } from './casl/casl.module';
 import { ArticleModule } from './article/article.module';
+import registerAs from "./config/config"
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '.env',
-      isGlobal: true,
-      validationOptions: {
-        allowUnknown: false,
-        abortEarly: true,
-      },
+      load: [registerAs],
     }),
     ThrottlerModule.forRootAsync({
       imports: [ConfigModule],
@@ -30,11 +26,11 @@ import { ArticleModule } from './article/article.module';
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        uri: process.env.DATABASE_URI,
-        dbName: process.env.DATABASE_NAME,
+        uri: configService.get<string>('DATABASE_URI'),
+        dbName:  configService.get<string>('DATABASE_NAME'),
         auth: {
-          user: process.env.DATABASE_USER,
-          password: process.env.DATABASE_PASSWORD,
+          user:  configService.get<string>('DATABASE_USER'),
+          password:  configService.get<string>('DATABASE_PASSWORD'),
         },
         useNewUrlParser: true,
         useUnifiedTopology: true,

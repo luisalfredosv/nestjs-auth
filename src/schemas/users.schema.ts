@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, HookNextFunction } from 'mongoose';
-import { hash } from 'bcrypt';
+import * as bcrypt from 'bcrypt';
+import { compareSync, genSaltSync, hashSync } from 'bcrypt';
+
 
 export type UserDocument = User & Document;
 
@@ -29,12 +31,25 @@ UserSchema.pre('save', async function (next: HookNextFunction) {
     if (!this.isModified('password')) {
       return next();
     }
+    const salt = await bcrypt.genSalt(10);
     // tslint:disable-next-line:no-string-literal
-    const hashed = await hash(this['password'], 10);
+    const hashed = await bcrypt.hash(this.password, salt);
     // tslint:disable-next-line:no-string-literal
-    this['password'] = hashed;
+    this.password = hashed;
     return next();
   } catch (err) {
     return next(err);
   }
 });
+
+UserSchema.set('toJSON', {
+  transform: function (doc, ret) {
+      delete ret.password;
+      return ret;
+  }
+});
+
+
+UserSchema.methods.comparePassword = async (candidatePassword: string, userPassword: string) => {
+  return await bcrypt.compare(candidatePassword, userPassword); 
+};
